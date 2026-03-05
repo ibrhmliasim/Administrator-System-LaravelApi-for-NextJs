@@ -1,0 +1,48 @@
+------------------------------------------------------------
+-- データベース作成 ----------------------------------------
+------------------------------------------------------------
+    CREATE DATABASE sekkei;
+------------------------------------------------------------
+-- テーブル作成 --------------------------------------------
+------------------------------------------------------------
+
+-- ユーザーテーブル
+CREATE TABLE T_USER (
+    user_id INT(11) AUTO_INCREMENT NOT NULL COMMENT 'ユーザーID',
+    login_id VARCHAR(20) NOT NULL COMMENT 'ログインID',
+    password VARCHAR(255) NOT NULL COMMENT 'パスワード',
+    user_surname VARCHAR(10) NOT NULL COMMENT '姓',
+    user_name VARCHAR(10) NOT NULL COMMENT '名',
+    postal_cd VARCHAR(10) NOT NULL COMMENT '郵便番号',
+    prefectures VARCHAR(10) NOT NULL COMMENT '都道府県',
+    city VARCHAR(30) NOT NULL COMMENT '市区町村',
+    address VARCHAR(100) NOT NULL COMMENT '番地',
+    other_address VARCHAR(100) NOT NULL COMMENT '建造物名等',
+    birthday DATE NOT NULL COMMENT '生年月日',
+    gender TINYINT(1) NOT NULL COMMENT '性別',
+    email VARCHAR(255) COMMENT 'メールアドレス',
+    tel VARCHAR(25) COMMENT '電話番号',
+    regist_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+    update_date DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新日時',
+    PRIMARY KEY (user_id),
+    
+    CONSTRAINT CHK_T_USER_GENDER CHECK (gender IN (0, 1, 2))
+) CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ユーザーテーブル'
+
+
+-- ユーザー所属テーブル
+CREATE TABLE T_USER_BELONGS (
+    user_id INT(11) NOT NULL COMMENT 'ユーザーID',
+    seq_no INT(11) NOT NULL COMMENT '連番',
+    belongs_name VARCHAR(20) NOT NULL COMMENT '所属名',
+    regist_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+    PRIMARY KEY (user_id, seq_no)
+) CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ユーザー所属テーブル'
+
+
+-- ユーザー削除テーブル
+CREATE TABLE T_USER_DELETE (
+    user_id INT(11) NOT NULL COMMENT 'ユーザーID',
+    regist_date DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '登録日時',
+    PRIMARY KEY (user_id)
+) CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'ユーザー削除テーブル'

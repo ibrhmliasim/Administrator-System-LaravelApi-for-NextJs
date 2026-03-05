@@ -1,0 +1,85 @@
+
+
+.top-nav{
+    display: none;
+}
+
+/* テーブルカスタムスタイル START 
+    .dt-search{
+        display: none;
+    }
+
+    .dt-length > label{
+        display: none;
+    }
+
+    div.dt-container .dt-input{
+        display: none;
+        padding: 0rem 2rem !important;
+    }
+
+    .dt-length{
+        padding-left: 2rem;
+    }
+
+    table.dataTable thead th, table.dataTable thead td, table.dataTable tfoot th, table.dataTable tfoot td {
+        display: flexbox;
+        justify-content: center;
+        text-align: center !important;
+    }
+
+    .dt-info{
+        display: none;
+    }
+
+    .dt-paging {
+        display: flex;
+        justify-content: end;
+        padding: 1rem 2rem;
+    }
+*/
+
+.btn {
+    border-color:white ;
+}
+
+.parag {
+    color: black;
+}
+
+th > .border-l {
+    border-left-width: 0px !important;
+}
+
+table.dataTable td.dt-type-date {
+    text-align: center !important;
+}
+
+table.dataTable>thead>tr>th, table.dataTable>thead>tr>td {
+    padding: 10px;
+    
+}
+
+div.dt-container.dt-empty-footer tbody>tr:last-child>* {
+    border-bottom: none !important;
+}
+
+input[type="radio"] {
+    padding-top: 100px;
+      margin-right: 3px !important;
+}
+
+.belong-input > input[type="text"] {
+    border: solid !important;
+    border-color: gray !important;
+    border-radius: 3px !important;
+}
+
+
+td > a:hover {
+    color: rgb(37 99 235);
+}
+
+#delete-link {
+    color: rgb(37 99 235) !important;
+}

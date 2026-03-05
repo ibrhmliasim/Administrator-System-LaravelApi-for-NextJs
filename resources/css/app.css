@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@layer base {
+    :root {
+        --font-sans: "Noto Sans JP", ui-sans-serif, system-ui, sans-serif;
+    }
+}
