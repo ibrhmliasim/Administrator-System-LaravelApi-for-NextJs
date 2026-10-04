@@ -1,7 +1,7 @@
 <?php
 // C:\Users\Asim\sekkeiShoLrvl\app\Models\TUser.php
 
-namespace App\Models; 
+namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,10 +13,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * ユーザー情報モデル
- * 
+ *
  */
 class TUser extends Authenticatable {
-    
+
     use Notifiable;
     use HasFactory;
 
@@ -65,7 +65,7 @@ class TUser extends Authenticatable {
      * @var array<string, string>
      */
     protected $casts = [
-        'password' => 'hashed', 
+        'password' => 'hashed',
         'birthday' => 'date',
         'regist_date' => 'datetime',
         'update_date' => 'datetime',
@@ -91,7 +91,7 @@ class TUser extends Authenticatable {
      */
     public function scopeWhereFullName($query, $name) {
         $normalized = preg_replace('/\s+/u', '', $name);
-        
+
         return $query->where(function ($q) use ($normalized, $name) {
             $q->whereRaw(
                 "REPLACE(CONCAT(user_surname, user_name), ' ', '') LIKE ?",

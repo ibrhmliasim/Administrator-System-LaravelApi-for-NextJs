@@ -3,24 +3,24 @@
 
 直近の開発・改善事項:
 
-データ管理の効率化: * Factory と Seeder: 
+データ管理の効率化: * Factory と Seeder:
     - 17万件の大規模データを用いた負荷テスト環境を構築し、実運用に近い環境での動作検証を可能にしました。
-    
+
 パフォーマンスの最大化:
     - インデックスの最適化: orderBy のロジックを見直し、DBインデックスを最大限に活用することでクエリ速度を改善。
     - フロントエンドLCP改善: サーバーレスポンスの高速化により、ユーザー体験（LCP指標）を大幅に向上。
     - メモリ管理: StreamedResponse の採用により、大量データ出力時のメモリ消費をわずか 6MB に抑制。
-    ‐ searchService() in UserSearchService.php was refactored(changed some) to perform better and quicker responds under stress. 
+    ‐ searchService() in UserSearchService.php was refactored(changed some) to perform better and quicker responds under stress.
 
 Eloquent & リクエスト設計の高度な活用:
     - ビジネスロジックのカプセル化: Scope を利用した検索ロジックの共通化、および Accessor によるデータ表示ロジックの統一。
     - データのクレンジング (Data Cleansing): RequestのprepareForValidation を活用して、バリデーション前に不要な空白の除去やフォーマットの正規化（郵便番号や電話番号の整形、配列データのトリミング等）を徹底し、データの整合性を担保。
 
-ビュー（Blade）のクリーン化: 
+ビュー（Blade）のクリーン化:
     - ビュー内からビジネスロジックを完全に排除し、コントローラーから整形済みデータを渡す設計に移行。
 
 テスト自動化による品質担保 (Quality Assurance):
-    - 包括的なテストカバレッジ: ユーザー登録、検索、更新、削除、CSVエクスポートの全主要機能に対して Feature Test を実装（全20テストケース）。
+    - 包括的なテストカバレッジ: ユーザー登録、検索、更新、削除、CSVエクスポートの全主要機能に対して Feature Test を実装（全26テストケース）。
     Feature テストの大半はサービスクラスを直接テストしているため、厳密にはユニットテストに該当します。現在は学習プロジェクトのため、
     そのままにしていますが、認識しています。
 
