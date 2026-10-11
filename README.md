@@ -90,7 +90,9 @@
 9. テスト自動化による品質担保(tests\Feature):
     このプロジェクトでは、登録、検索 (ページ区切りと複合条件を含む)、更新、論理削除、CSV エクスポートをカバーする 28 の機能テスト (120アサーション) を実装し、ビジネス ロジック、検証、およびデータ整合性の制御を保証します。
 
-![Screenshot 2026-09-26 at 6.10.54 PM.png](../Desktop/Screenshots/Screenshot%202026-09-26%20at%206.10.54%E2%80%AFPM.png)
-![Screenshot 2026-09-26 at 6.11.27 PM.png](../Desktop/Screenshots/Screenshot%202026-09-26%20at%206.11.27%E2%80%AFPM.png)
-![Screenshot 2026-09-26 at 6.12.44 PM.png](../Desktop/Screenshots/Screenshot%202026-09-26%20at%206.12.44%E2%80%AFPM.png)
-![Screenshot 2026-09-26 at 6.54.11 PM.png](../Desktop/Screenshots/Screenshot%202026-09-26%20at%206.54.11%E2%80%AFPM.png)
+10. スクリンショット；
+    ![LCP-metrics.png](screenshots/LCP-metrics.png)
+    ![テスト](screenshots/test-results.png)
+    ![ユーザー編集ページ](screenshots/user-edit.png)
+    ![ユーザー登録ページ](screenshots/user-register.png)
+    ![ユーザー検索ページ](screenshots/user-search.png)
