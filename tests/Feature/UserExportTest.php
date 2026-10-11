@@ -5,10 +5,8 @@ namespace Tests\Feature;
 use Tests\TestCase;
 
 use App\Models\TUser;
-use App\Contracts\User\UserExportInterface;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class UserExportTest extends TestCase
 {
@@ -19,17 +17,14 @@ class UserExportTest extends TestCase
      *
      * @return void
      */
-    public function test_user_csv_file_export(): void 
+    public function test_user_csv_file_export(): void
     {
         TUser::factory()->count(5)->create();
 
-        // インターフェースを介してコンテナからサービスを受信します。
-        $service = app(UserExportInterface::class);
-        
-        $response = $service->export([]);
+        $response = $this->get(route('users.export'));
 
-        $this->assertInstanceOf(StreamedResponse::class, $response);
-        
+        $response->assertOk();
+
         $contentType = $response->headers->get('Content-Type');
         $this->assertStringStartsWith('text/csv', $contentType);
         $this->assertStringContainsString('charset=SJIS-WIN', $contentType);
@@ -38,15 +33,32 @@ class UserExportTest extends TestCase
         $this->assertStringContainsString('attachment; filename=', $contentDisposition);
         $this->assertStringContainsString('.csv', $contentDisposition);
 
-        ob_start();
-        $response->sendContent();
-        $csvContent = ob_get_clean();
-
+        $csvContent = $response->streamedContent();
         $this->assertNotEmpty($csvContent);
-        
+
         $utf8Content = mb_convert_encoding($csvContent, 'UTF-8', 'SJIS-WIN');
         $lines = explode("\n", trim($utf8Content));
-        
-        $this->assertGreaterThan(1, count($lines)); 
+
+        $this->assertGreaterThan(1, count($lines));
+    }
+
+    /**
+     * CSVファイルが検索と同じ条件で作成されていることをテスト
+     *
+     * @return void
+     */
+    public function test_csv_export_respects_search_conditions(): void
+    {
+        TUser::factory()->create(['login_id' => 'export_target']);
+        TUser::factory()->create(['login_id' => 'export_other']);
+
+        $response = $this->get(route('users.export', ['login_id' => 'target']));
+
+        $response->assertOk();
+
+        $utf8Content = mb_convert_encoding($response->streamedContent(), 'UTF-8', 'SJIS-WIN');
+
+        $this->assertStringContainsString('export_target', $utf8Content);
+        $this->assertStringNotContainsString('export_other', $utf8Content);
     }
 }

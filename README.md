@@ -88,4 +88,9 @@
         ※ APIレベルでのクエリ最適化と、フロントエンド側での描画制御を分離して改善。
 
 9. テスト自動化による品質担保(tests\Feature):
-    このプロジェクトでは、登録、検索 (ページ区切りと複合条件を含む)、更新、論理削除、CSV エクスポートをカバーする 21 の機能テスト (62 のチェック) を実装し、ビジネス ロジック、検証、およびデータ整合性の制御を保証します。
+    このプロジェクトでは、登録、検索 (ページ区切りと複合条件を含む)、更新、論理削除、CSV エクスポートをカバーする 28 の機能テスト (120アサーション) を実装し、ビジネス ロジック、検証、およびデータ整合性の制御を保証します。
+
+![Screenshot 2026-09-26 at 6.10.54 PM.png](../Desktop/Screenshots/Screenshot%202026-09-26%20at%206.10.54%E2%80%AFPM.png)
+![Screenshot 2026-09-26 at 6.11.27 PM.png](../Desktop/Screenshots/Screenshot%202026-09-26%20at%206.11.27%E2%80%AFPM.png)
+![Screenshot 2026-09-26 at 6.12.44 PM.png](../Desktop/Screenshots/Screenshot%202026-09-26%20at%206.12.44%E2%80%AFPM.png)
+![Screenshot 2026-09-26 at 6.54.11 PM.png](../Desktop/Screenshots/Screenshot%202026-09-26%20at%206.54.11%E2%80%AFPM.png)

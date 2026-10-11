@@ -16,6 +16,8 @@ class UserEditTest extends TestCase
 
     /**
      * テスト: ユーザー更新成功とprepareForValidation()
+     *
+     * @return void
      */
     public function test_user_update_and_prepare_for_validation(): void
     {
@@ -38,10 +40,10 @@ class UserEditTest extends TestCase
             'gender'        => 2,
         ];
 
-        $response = $this->put(route('users.edit', ['user_id' => $user->user_id]), $updateData);
+        $response = $this->putJson(route('users.edit', ['user_id' => $user->user_id]), $updateData);
 
-        $response->assertSessionHasNoErrors();
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertJsonMissingValidationErrors();
 
         $this->assertDatabaseHas('t_user', [
             'user_id'      => $user->user_id,
@@ -55,6 +57,8 @@ class UserEditTest extends TestCase
 
     /**
      * テスト: パスワードが提供されていない場合、古いパスワードを保持する
+     *
+     * @return void
      */
     public function test__user_update_keeps_old_password_if_not_provided(): void
     {
@@ -79,15 +83,19 @@ class UserEditTest extends TestCase
             'gender'        => 2,
         ];
 
-        $response = $this->put(route('users.edit', ['user_id' => $user->user_id]), $updateData);
+        $response = $this->putJson(route('users.edit', ['user_id' => $user->user_id]), $updateData);
 
-        $response->assertSessionHasNoErrors();
+        $response->assertOk()
+            ->assertJsonMissingValidationErrors();
+
         $user->refresh();
         $this->assertTrue(Hash::check('password', $user->password));
     }
 
     /**
      * テスト: login_id が他のユーザーによって既に使用されている場合、更新は失敗する
+     *
+     * @return void
      */
     public function test_user_update_fails_if_login_id_is_taken_by_another_user(): void
     {
@@ -110,8 +118,23 @@ class UserEditTest extends TestCase
 
         ];
 
-        $response = $this->put(route('users.edit', ['user_id' => $user1->user_id]), $updateData);
+        $response = $this->putJson(route('users.edit', ['user_id' => $user1->user_id]), $updateData);
 
-        $response->assertSessionHasErrors('login_id');
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['login_id']);
+    }
+
+    /**
+     * テスト: 存在しないユーザーに対するユーザー更新で404が返される
+     *
+     * @return void
+     */
+    public function test_user_update_returns_404_for_nonexistent_user(): void
+    {
+        $response = $this->putJson(route('users.edit', ['user_id' => 999999999]), [
+            'login_id' => 'whatever',
+        ]);
+
+        $this->assertContains($response->status(), [404, 422]);
     }
 }

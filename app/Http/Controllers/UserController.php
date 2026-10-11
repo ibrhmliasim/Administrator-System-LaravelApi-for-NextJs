@@ -32,7 +32,7 @@ class UserController extends Controller
     /**
      * ユーザー一覧画面の表示および検索処理
      *
-     * @param \App\Http\Requests\User\SearchUserRequest $request 
+     * @param \App\Http\Requests\User\SearchUserRequest $request
      * @param \App\Services\User\UserSearchService $service
      * @return \Illuminate\Http\JsonResponse ユーザー一覧画面
      */
@@ -55,7 +55,7 @@ class UserController extends Controller
 
     /**
      * ユーザー登録処理(POST)
-     * 
+     *
      * @param RegistUserRequest $request
      * @param UserRegisterService $service
      * @return \Illuminate\Http\RedirectResponse
@@ -96,10 +96,10 @@ class UserController extends Controller
     /**
      * ユーザー情報の更新処理 (PUT)
      *
-     * @param \App\Http\Requests\User\EditUserRequest $request 
-     * @param \App\Services\User\UserEditService $service 
-     * @param int|string $user_id 
-     * @return \Illuminate\Http\RedirectResponse 
+     * @param \App\Http\Requests\User\EditUserRequest $request
+     * @param \App\Services\User\UserEditService $service
+     * @param int|string $user_id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function edit(EditUserRequest $request, UserEditService $service, $user_id)
     {
@@ -132,7 +132,7 @@ class UserController extends Controller
 
     /**
      * ユーザー削除処理 (DELETE)
-     * 
+     *
      * @param int|string $user_id
      * @param \App\Services\User\UserDeleteService $service
      * @return \Illuminate\Http\RedirectResponse
@@ -157,16 +157,16 @@ class UserController extends Controller
         return response()->json([
             'status' => 'error',
             'message' => $result['message']
-        ], 500);
+        ], 409);
     }
 
     /**
      * ユーザー情報のCSVエクスポート処理
      *
-     * @param \Illuminate\Http\Request $request 
-     * @param \App\Contracts\User\UserExportInterface $exportInterface 
-     * @return \Symfony\Component\HttpFoundation\StreamedResponse 
-     * 
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Contracts\User\UserExportInterface $exportInterface
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     *
      * メソッドがインターフェースを実装する場合、その名前はインターフェースと一致する必要があります。
      */
     public function export(Request $request, UserExportInterface $exportInterface): StreamedResponse

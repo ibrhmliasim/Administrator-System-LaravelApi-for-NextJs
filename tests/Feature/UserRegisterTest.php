@@ -17,7 +17,7 @@ class UserRegisterTest extends TestCase
     /**
      * テスト: ユーザー登録成功とprepareForValidation()
      */
-    public function test_user_regstration_and_prepare_for_validation(): void
+    public function test_user_registration_and_prepare_for_validation(): void
     {
         // 最も汚いデータを送信して、prepareForValidationをテストします
         $dirtyData = [
@@ -36,11 +36,11 @@ class UserRegisterTest extends TestCase
             'tel'                   => '090-2321-3211',      // ハイフン（削除する必要があります）
         ];
 
-        $response = $this->post(route('users.register'), $dirtyData);
+        $response = $this->postJson(route('users.register'), $dirtyData);
 
         // バリデーションエラーがないことを確認する
-        $response->assertSessionHasNoErrors();
-        $response->assertStatus(201);
+        $response->assertStatus(201)
+            ->assertJsonMissingValidationErrors();
 
         // データベースに入力されたデータがクリーンであることを確認する
         $this->assertDatabaseHas('t_user', [
@@ -67,16 +67,17 @@ class UserRegisterTest extends TestCase
     {
         TUser::factory()->create(['login_id' => 'taken_id']);
 
-        $response = $this->post(route('users.register'), [
+        $response = $this->postJson(route('users.register'), [
             'login_id' => 'taken_id',
             'password' => 'password1234',
             'email'    => 'test@example.com',
         ]);
 
-        $response->assertSessionHasErrors(['login_id']);
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['login_id']);
         $this->assertEquals(
             '登録済みのログインIDです',
-            session('errors')->get('login_id')[0]
+            $response->json('errors.login_id.0')
         );
     }
 
@@ -85,8 +86,9 @@ class UserRegisterTest extends TestCase
      */
     public function test_registration_fails_if_postal_cd_has_wrong_length(): void
     {
-        $response = $this->post(route('users.register'), ['postal_cd' => '123456789']);
-        $response->assertSessionHasErrors(['postal_cd']);
+        $response = $this->postJson(route('users.register'), ['postal_cd' => '123456789']);
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['postal_cd']);
     }
 
     /**
@@ -94,11 +96,12 @@ class UserRegisterTest extends TestCase
      */
     public function test_registration_fails_if_password_is_too_short(): void
     {
-        $response = $this->post(route('users.register'), [
+        $response = $this->postJson(route('users.register'), [
             'password' => '12345',
         ]);
 
-        $response->assertSessionHasErrors(['password']);
+        $response->assertStatus(422)
+            ->assertJsonValidationErrors(['password']);
     }
 
     /**
@@ -123,8 +126,9 @@ class UserRegisterTest extends TestCase
             ]
         ];
 
-        $response = $this->post(route('users.register'), $validData);
+        $response = $this->postJson(route('users.register'), $validData);
 
-        $response->assertSessionHasErrors(['t_user_belongs.0.belongs_name']);
+        $response->assertStatus(status: 422)
+            ->assertJsonValidationErrors(['t_user_belongs.0.belongs_name']);
     }
 }
